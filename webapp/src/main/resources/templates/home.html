@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhml"
+	xmlns:th="http://www.thymeleaf.org">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous">
+
+<title>Compte Web Application</title>
+
+<style>
+	body {
+		padding-top: 50px;
+	}
+	.special {
+		padding-top:50px;
+	}
+</style>
+</head>
+<body>
+
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href=".">Syst&egraveme de gestion des comptes</a>
+			</div>
+		</div>
+	</nav>
+
+
+	<div class="container special">
+		<h2 class="h2">Liste des comptes</h2>
+		<div class="table-responsive">
+			<table class="table table-striped table-sm">
+				<thead>
+					<tr>
+						<th>Pr&eacutenom</th>
+						<th>Nom</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:if="${comptes.empty}">
+						<td colspan="3">Aucun compte en base de donn&eacutees</td>
+					</tr>
+					<tr th:each="compte: ${comptes}">
+						<td><span th:text="${compte.prenom}"> Pr&eacutenom </span></td>
+						<td><span th:text="${compte.nom}"> Nom </span></td>
+						<td>
+							<a th:href="@{/afficherCompte/{id}(id=${compte.numeroCompte})}"><button class="btn btn-info">Op&eacuterations</button></a>
+							<a th:href="@{/mettreAJourCompte/{id}(id=${compte.numeroCompte})}"><button class="btn btn-warning">Modifier</button></a>
+							<a href="#" th:onclick="'confirmerSuppression(\'' + @{/supprimerCompte/{id}(id=${compte.numeroCompte})} + '\')'"><!--\'' + @{/supprimerLigne/{id}(id=${ligne.id})} + '\')'">-->
+								<button class="btn btn-danger">Supprimer</button>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<h4><a th:href="@{/creerCompte}">Ajouter un nouveau compte</a></h4>
+
+	</div>
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+		crossorigin="anonymous"></script>
+</body>
+<script>
+	function confirmerSuppression(url) {
+	  Swal.fire({
+	  title: 'Êtes-vous sûr ?',
+	  text: "Cette action est irréversible.",
+	  icon: 'warning',
+	  showCancelButton: true,
+	  confirmButtonText: 'Oui, supprimer',
+	  cancelButtonText: 'Annuler',
+	  buttonsStyling: false, // on désactive le style SweetAlert2 par défaut
+	  customClass: {
+	    confirmButton: 'btn btn-danger',
+	    cancelButton: 'btn btn-info'
+	  }
+	}).then((result) => {
+	    if (result.isConfirmed) {
+	      window.location.href = url; 
+	    }
+	  });
+	}
+
+</script>
+</html>
