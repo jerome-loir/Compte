@@ -26,6 +26,7 @@ Ce projet m’a permis de consolider mes compétences en développement Java, en
   - Controller
   - Service
   - Repository
+  - Model
 
 ---
 
