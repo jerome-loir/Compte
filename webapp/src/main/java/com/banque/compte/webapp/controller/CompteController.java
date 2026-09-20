@@ -1,8 +1,8 @@
 package com.banque.compte.webapp.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,14 +14,16 @@ import com.banque.compte.webapp.model.Ligne;
 import com.banque.compte.webapp.service.CompteService;
 import com.banque.compte.webapp.service.LigneService;
 
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class CompteController {
 
-	@Autowired
-	private CompteService compteService;
+	private final CompteService compteService;
 	
-	@Autowired
-	private LigneService ligneService;
+	private final LigneService ligneService;
 	
 	@GetMapping("/")
 	public String home(Model model) {
@@ -32,7 +34,8 @@ public class CompteController {
 	
 	@GetMapping("/afficherCompte/{id}")
 	public String afficherCompte(@PathVariable("id") int id, Model model) {
-		String nom = compteService.rechercherCompte(id).getPrenom() + " " + compteService.rechercherCompte(id).getNom();
+		Compte compte = compteService.rechercherCompte(id);
+		String nom = compte.getPrenom() + " " + compte.getNom();
 		Float solde = 0.00f;
 		Iterable<Ligne> listLigne = ligneService.rechercherLignes(id);
 		for (Ligne ligne : listLigne) {
@@ -45,7 +48,7 @@ public class CompteController {
 		return "compte";
 	}
 	
-	@GetMapping("/supprimerCompte/{id}")
+	@PostMapping("/supprimerCompte/{id}")
 	public ModelAndView supprimerCompte(@PathVariable("id") int id) {
 		compteService.supprimerCompte(id);
 		return new ModelAndView("redirect:/");
@@ -66,7 +69,13 @@ public class CompteController {
 	}
 	
 	@PostMapping("/sauvegarderCompte")
-	public ModelAndView sauvegarderCompte(@ModelAttribute Compte compte) {
+	public ModelAndView sauvegarderCompte(@Valid @ModelAttribute Compte compte, BindingResult bindingResult) {
+	    if (bindingResult.hasErrors()) {
+	        String vue = (compte.getNumeroCompte() != null) ? "formUpdateCompte" : "formNewCompte";
+	        ModelAndView mav = new ModelAndView(vue);
+	        mav.addObject("compte", compte);
+	        return mav;
+	    }
 		compteService.sauvegarderCompte(compte);
 		return new ModelAndView("redirect:/");
 	}

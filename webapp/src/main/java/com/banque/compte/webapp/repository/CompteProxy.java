@@ -1,6 +1,5 @@
 package com.banque.compte.webapp.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -11,20 +10,21 @@ import org.springframework.web.client.RestTemplate;
 import com.banque.compte.webapp.configuration.CustomProperties;
 import com.banque.compte.webapp.model.Compte;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class CompteProxy {
 
-	@Autowired
-	private CustomProperties props;
+	private final CustomProperties props;
+	private final RestTemplate restTemplate;
 	
 	public Iterable<Compte> rechercherComptes(){
 		String baseApiUrl = props.getApiUrl();
 		String rechercherComptesUrl = baseApiUrl + "/comptes";
 		
-		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<Iterable<Compte>> response = restTemplate.exchange(
 				rechercherComptesUrl,
 				HttpMethod.GET,
@@ -40,7 +40,6 @@ public class CompteProxy {
 		String baseApiUrl = props.getApiUrl();
 		String rechercherCompteUrl = baseApiUrl + "/compte/" + id;
 		
-		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<Compte> response = restTemplate.exchange(
 				rechercherCompteUrl,
 				HttpMethod.GET,
@@ -56,7 +55,6 @@ public class CompteProxy {
 		String baseApiUrl = props.getApiUrl();
 		String supprimerCompteUrl = baseApiUrl + "/compte/" + id;
 		
-		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<Void> response = restTemplate.exchange(
 				supprimerCompteUrl,
 				HttpMethod.DELETE,
@@ -70,7 +68,6 @@ public class CompteProxy {
 		String baseApiUrl = props.getApiUrl();
 		String creerCompteUrl = baseApiUrl + "/compte";
 		
-		RestTemplate restTemplate = new RestTemplate();
 		HttpEntity<Compte> request = new HttpEntity<Compte>(compte);		
 		ResponseEntity<Compte> response = restTemplate.exchange(
 				creerCompteUrl,
@@ -88,7 +85,6 @@ public class CompteProxy {
 		String baseApiUrl = props.getApiUrl();
 		String mettreAJourCompteUrl = baseApiUrl + "/compte/" + compte.getNumeroCompte();
 		
-		RestTemplate restTemplate = new RestTemplate();
 		HttpEntity<Compte> request = new HttpEntity<Compte>(compte);
 		ResponseEntity<Compte> response = restTemplate.exchange(
 				mettreAJourCompteUrl,

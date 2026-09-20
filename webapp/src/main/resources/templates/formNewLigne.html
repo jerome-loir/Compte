@@ -53,28 +53,28 @@ body {
 				<div class="form-group">
 					<label for="descriptionInput">Description</label> 
 					<input
-						type="text" th:field="*{description}" class="form-control" id="descriptionInput"
+						type="text" th:field="*{description}" class="form-control" id="descriptionInput" required
 						aria-describedby="nomHelp" placeholder="Saisir la description"> <small
 						id="descriptionHelp" class="form-text text-muted">Merci d'&eacute;crire la description de l'op&eacute;ration.</small>
 				</div>
 				<div class="form-group">
 					<label for="categorieInput">Cat&eacute;gorie</label> 
 					<input
-						type="text" th:field="*{categorie}" class="form-control" id="categorieInput"
+						type="text" th:field="*{categorie}" class="form-control" id="categorieInput" required
 						aria-describedby="categorieHelp" placeholder="Saisir la catégorie"> <small
 						id="categorieHelp" class="form-text text-muted">Merci d'&eacute;crire la Cat&eacute;gorie de l'op&eacute;ration.</small>
 				</div>
 				<div class="form-group">
 					<label for="montantInput">Montant</label> 
 					<input
-						type="number" step="0.01" th:field="*{montant}" class="form-control" id="montantInput"
+						type="number" step="0.01" th:field="*{montant}" class="form-control" id="montantInput" required
 						aria-describedby="montantHelp" placeholder="Saisir le montant"> <small
 						id="montantHelp" class="form-text text-muted">Merci d'&eacute;crire le montant de l'op&eacute;ration.</small>
 				</div>
 				<div class="form-group">
 					<label for="dateInput">Date</label> 
 					<input
-						type="date" name= "dateOperation" th:value="${dateOperation}" class="form-control" id="dateInput"
+						type="date" name= "dateOperation" th:value="${dateOperation}" class="form-control" id="dateInput" required
 						aria-describedby="dateHelp" placeholder="Saisir la date"> <small
 						id="dateHelp" class="form-text text-muted">Merci d'&eacute;crire la date de l'op&eacute;ration.</small>
 				</div>

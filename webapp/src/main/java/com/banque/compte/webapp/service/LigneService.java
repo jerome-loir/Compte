@@ -1,19 +1,17 @@
 package com.banque.compte.webapp.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.banque.compte.webapp.model.Ligne;
 import com.banque.compte.webapp.repository.LigneProxy;
 
-import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
-@Data
 @Service
+@RequiredArgsConstructor
 public class LigneService {
 
-	@Autowired
-	private LigneProxy ligneProxy;
+	private final LigneProxy ligneProxy;
 	
 	public Iterable<Ligne> rechercherLignes(int numeroCompte){
 		return ligneProxy.rechercherLignes(numeroCompte);

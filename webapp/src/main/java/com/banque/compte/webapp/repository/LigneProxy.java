@@ -1,6 +1,5 @@
 package com.banque.compte.webapp.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -11,20 +10,21 @@ import org.springframework.web.client.RestTemplate;
 import com.banque.compte.webapp.configuration.CustomProperties;
 import com.banque.compte.webapp.model.Ligne;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class LigneProxy {
 
-	@Autowired
-	private CustomProperties props;
+	private final CustomProperties props;
+	private final RestTemplate restTemplate;
 	
 	public Iterable<Ligne> rechercherLignes(int numeroCompte){
 		String baseApiUrl = props.getApiUrl();
 		String rechercherLignesUrl = baseApiUrl + "/lignes/" + numeroCompte;
 		
-		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<Iterable<Ligne>> response = restTemplate.exchange(
 				rechercherLignesUrl,
 				HttpMethod.GET,
@@ -41,7 +41,6 @@ public class LigneProxy {
 		String baseApiUrl = props.getApiUrl();
 		String rechercherLigneUrl = baseApiUrl + "/ligne/" + id;
 		
-		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<Ligne> response = restTemplate.exchange(
 				rechercherLigneUrl,
 				HttpMethod.GET,
@@ -58,7 +57,6 @@ public class LigneProxy {
 		String baseApiUrl = props.getApiUrl();
 		String supprimerLigneUrl = baseApiUrl + "/ligne/" + id;
 		
-		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<Void> response = restTemplate.exchange(
 				supprimerLigneUrl,
 				HttpMethod.DELETE,
@@ -73,7 +71,6 @@ public class LigneProxy {
 		String baseApiUrl = props.getApiUrl();
 		String creerLigneUrl = baseApiUrl + "/ligne";
 		
-		RestTemplate restTemplate = new RestTemplate();
 		HttpEntity<Ligne> request = new HttpEntity<Ligne>(ligne);
 		ResponseEntity<Ligne> response = restTemplate.exchange(
 				creerLigneUrl,
@@ -91,7 +88,6 @@ public class LigneProxy {
 		String baseApiUrl = props.getApiUrl();
 		String mettreAJourLigneUrl = baseApiUrl + "/ligne/" + ligne.getId();
 		
-		RestTemplate restTemplate = new RestTemplate();
 		HttpEntity<Ligne> request = new HttpEntity<Ligne>(ligne);
 		ResponseEntity<Ligne> response = restTemplate.exchange(
 				mettreAJourLigneUrl,

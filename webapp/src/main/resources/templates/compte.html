@@ -56,9 +56,9 @@
 
   <div id="output" class="container special">
     <h2 class="h2">Liste des op&eacute;rations pour <span th:text="${nom}"></h2>
-	<p th:if="${solde > 0}">Solde du compte : <span class="soldepositif" th:text="${#numbers.formatDecimal(solde, 1, 2)} + ' €'">  €</span></p>
-	<p th:if="${solde == 0}">Solde du compte : <span class="soldenul" th:text="${#numbers.formatDecimal(solde, 1, 2)} + ' €'">  €</span></p>
-	<p th:if="${solde < 0}">Solde du compte : <span class="soldenegatif" th:text="${#numbers.formatDecimal(solde, 1, 2)} + ' €'">  €</span></p>
+	<p th:if="${solde > 0}">Solde du compte : <span class="soldepositif" th:text="${#numbers.formatDecimal(solde, 1, 'WHITESPACE', 2, 'COMMA')} + ' €'">  €</span></p>
+	<p th:if="${solde == 0}">Solde du compte : <span class="soldenul" th:text="${#numbers.formatDecimal(solde, 1, 'WHITESPACE', 2, 'COMMA')} + ' €'">  €</span></p>
+	<p th:if="${solde < 0}">Solde du compte : <span class="soldenegatif" th:text="${#numbers.formatDecimal(solde, 1, 'WHITESPACE', 2, 'COMMA')} + ' €'">  €</span></p>
 	
 
     <div class="table-responsive">
@@ -80,14 +80,16 @@
             <td><span th:text="${#dates.format(ligne.dateOperation, 'dd/MM/yyyy')}"> Date </span></td>
             <td><span th:text="${ligne.description}"> Description </span></td>
             <td><span th:text="${ligne.categorie}"> Cat&eacute;gorie </span></td>
-            <td><span th:text="${#numbers.formatDecimal(ligne.montant, 1, 2)}"> Montant </span></td>
+            <td><span th:text="${#numbers.formatDecimal(ligne.montant, 1, 'WHITESPACE', 2, 'COMMA')}"> Montant </span></td>
             <td>
               <a th:href="@{/mettreAJourLigne/{id}(id=${ligne.id})}">
                 <button class="btn btn-warning">Modifier</button>
               </a>
-              <a href="#" th:onclick="'confirmerSuppression(\'' + @{/supprimerLigne/{id}(id=${ligne.id})} + '\')'">
-                <button class="btn btn-danger">Supprimer</button>
-              </a>
+              <form id="formSuppression" th:action="@{/supprimerLigne/{id}(id=${ligne.id})}" 
+						method="post"
+						style="display: inline;">
+					<button type="button" class="btn btn-danger" onclick="confirmerSuppression(this.closest('form'))">Supprimer</button>
+			  </form>
             </td>
           </tr>
         </tbody>
@@ -105,28 +107,24 @@
           crossorigin="anonymous"></script>
 </body>
 <script>
-	function showAlert() {
-	  Swal.fire('Hello !', 'Ceci est une popup SweetAlert2 ', 'info');
-	}
-	function confirmerSuppression(url) {
-	  Swal.fire({
-	  title: 'Êtes-vous sûr ?',
-	  text: "Cette action est irréversible.",
-	  icon: 'warning',
-	  showCancelButton: true,
-	  confirmButtonText: 'Oui, supprimer',
-	  cancelButtonText: 'Annuler',
-	  buttonsStyling: false, 
-	  customClass: {
-	    confirmButton: 'btn btn-danger',
-	    cancelButton: 'btn btn-info'
-	  }
-	}).then((result) => {
-	    if (result.isConfirmed) {
-	      window.location.href = url; 
-	    }
-	  });
-	}
-
+	function confirmerSuppression(form) {
+  Swal.fire({
+    title: 'Êtes-vous sûr ?',
+    text: "Cette action est irréversible.",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Oui, supprimer',
+    cancelButtonText: 'Annuler',
+    buttonsStyling: false,
+    customClass: {
+      confirmButton: 'btn btn-danger',
+      cancelButton: 'btn btn-info'
+    }
+  }).then((result) => {
+    if (result.isConfirmed) {
+      form.submit(); 
+    }
+  });
+ }
 </script>
 </html>

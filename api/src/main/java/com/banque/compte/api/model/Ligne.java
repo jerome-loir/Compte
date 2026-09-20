@@ -1,9 +1,5 @@
 package com.banque.compte.api.model;
 
-
-
-
-
 import java.sql.Date;
 
 import jakarta.persistence.Entity;

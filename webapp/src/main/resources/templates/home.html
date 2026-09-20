@@ -60,9 +60,11 @@
 						<td>
 							<a th:href="@{/afficherCompte/{id}(id=${compte.numeroCompte})}"><button class="btn btn-info">Op&eacuterations</button></a>
 							<a th:href="@{/mettreAJourCompte/{id}(id=${compte.numeroCompte})}"><button class="btn btn-warning">Modifier</button></a>
-							<a href="#" th:onclick="'confirmerSuppression(\'' + @{/supprimerCompte/{id}(id=${compte.numeroCompte})} + '\')'"><!--\'' + @{/supprimerLigne/{id}(id=${ligne.id})} + '\')'">-->
-								<button class="btn btn-danger">Supprimer</button>
-							</a>
+							<form id="formSuppression" th:action="@{/supprimerCompte/{id}(id=${compte.numeroCompte})}" 
+									method="post"
+									style="display: inline;">
+								<button type="button" class="btn btn-danger" onclick="confirmerSuppression(this.closest('form'))">Supprimer</button>
+							</form>
 						</td>
 					</tr>
 				</tbody>
@@ -80,25 +82,24 @@
 		crossorigin="anonymous"></script>
 </body>
 <script>
-	function confirmerSuppression(url) {
-	  Swal.fire({
-	  title: 'Êtes-vous sûr ?',
-	  text: "Cette action est irréversible.",
-	  icon: 'warning',
-	  showCancelButton: true,
-	  confirmButtonText: 'Oui, supprimer',
-	  cancelButtonText: 'Annuler',
-	  buttonsStyling: false, // on désactive le style SweetAlert2 par défaut
-	  customClass: {
-	    confirmButton: 'btn btn-danger',
-	    cancelButton: 'btn btn-info'
-	  }
-	}).then((result) => {
-	    if (result.isConfirmed) {
-	      window.location.href = url; 
-	    }
-	  });
-	}
-
+	function confirmerSuppression(form) {
+  Swal.fire({
+    title: 'Êtes-vous sûr ?',
+    text: "Cette action est irréversible.",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Oui, supprimer',
+    cancelButtonText: 'Annuler',
+    buttonsStyling: false,
+    customClass: {
+      confirmButton: 'btn btn-danger',
+      cancelButton: 'btn btn-info'
+    }
+  }).then((result) => {
+    if (result.isConfirmed) {
+      form.submit(); 
+    }
+  });
+ }
 </script>
 </html>

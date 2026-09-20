@@ -1,8 +1,8 @@
 package com.banque.compte.webapp.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,13 +12,16 @@ import org.springframework.web.servlet.ModelAndView;
 import com.banque.compte.webapp.model.Ligne;
 import com.banque.compte.webapp.service.LigneService;
 
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class LigneController {
 
-	@Autowired
-	private LigneService ligneService;
+	private final LigneService ligneService;
 	
-	@GetMapping("/supprimerLigne/{id}")
+	@PostMapping("/supprimerLigne/{id}")
 	public ModelAndView supprimerLigne(@PathVariable("id") int id) {
 		Long numeroCompte = ligneService.rechercherLigne(id).getNumeroCompte();
 		ligneService.supprimerLigne(id);
@@ -41,13 +44,13 @@ public class LigneController {
 	}
 	
 	@PostMapping("/sauvegarderLigne")
-	public ModelAndView sauvegarderLigne(@ModelAttribute Ligne ligne){//, @RequestParam("dateOperation") String dateOperation) throws ParseException {
-		
-	/**	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.FRENCH);
-
-		Date parsed = format.parse(dateOperation);
-		System.out.println(parsed);*/
-		//ligne.setDateOperation(parsed);
+	public ModelAndView sauvegarderLigne(@Valid @ModelAttribute Ligne ligne, BindingResult bindingResult){
+		if (bindingResult.hasErrors()) {
+	        String vue = (ligne.getId() != null) ? "formUpdateLigne" : "formNewLigne";
+	        ModelAndView mav = new ModelAndView(vue);
+	        mav.addObject("ligne", ligne);
+	        return mav;
+	    }
 		ligneService.sauvegarderLigne(ligne);
 		return new ModelAndView("redirect:/afficherCompte/" + ligne.getNumeroCompte());
 	}
