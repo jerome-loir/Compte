@@ -42,16 +42,13 @@ Ce projet m’a permis de consolider mes compétences en développement Java, en
 
 - h2 (par défaut) - démarrage immédiat sans configuration préalable.
 
-Lancer l'api avec h2 :
-mvn spring-boot:run
-
+	-> sous Windows,  lancer.bat  avec cmd (.\lancer.bat avec PowerShell)
+	-> sous Linux, sh lancer.sh
+	
 - postgres
 
-Lancer l'api avec PostgreSQL :
-mvn spring-boot:run -Dspring-boot.run.profiles=postgres
-
-
-Dans les deux cas, lancer la webapp : mvn spring-boot:run
+	-> sous Windows, lancer.bat postgres  avec cmd (.\lancer.bat avec PowerShell)
+	-> sous Linux, sh lancer.sh postgres
 
 
 Résultat dans un navigateur web : http://localhost:9001/
