@@ -46,7 +46,7 @@ class CompteServiceTest {
 	@Test
 	@Tag("lecture")
 	@DisplayName("La recherche de tous les comptes délègue au repository")
-	public void rechercherLignes_doitUtiliserCompteRepository_pourRechercherTousLesComptes() {
+	public void rechercherComptes_doitUtiliserCompteRepository_pourRechercherTousLesComptes() {
 		// GIVEN
 		Compte compte1 = new Compte();
 		Compte compte2 = new Compte();
@@ -102,7 +102,7 @@ class CompteServiceTest {
 	@Test
 	@Tag("ecriture")
 	@DisplayName("La sauvegarde d'un compte délègue au repository")
-	public void sauvegarderLigne_doitUtiliserLigneRepository_pourSauvegarderUneLigneDonnee() {
+	public void sauvegarderCompte_doitUtiliserCompteRepository_pourSauvegarderUnCompteDonne() {
 		// GIVEN
 		Compte compte = new Compte();
 		
