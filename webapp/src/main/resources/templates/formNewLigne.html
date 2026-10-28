@@ -45,7 +45,8 @@ body {
 		<h2 class="h2">Ajout d'une nouvelle op&eacute;ration</h2>
 		<div>
 			<form method="post"
-				th:action="@{/sauvegarderLigne}" th:object="${ligne}">
+				th:action="@{/sauvegarderLigne}" th:object="${ligne}"
+				onsubmit="const b = this.querySelector('[type=submit]'); setTimeout(() => b.disabled = true, 0);">
 				<div class="form-group">
 					<input
 						type="hidden" th:field="*{numeroCompte}" class="form-control">
@@ -79,8 +80,8 @@ body {
 						id="dateHelp" class="form-text text-muted">Merci d'&eacute;crire la date de l'op&eacute;ration.</small>
 				</div>
 
-				<button type="submit" class="btn btn-primary">Cr&eacute;er</button>
-				<a th:href="@{/afficherCompte/{id}(id=${numeroCompte})}" class="btn btn-default">Annuler</a>
+				<button id="boutonValider" type="submit" class="btn btn-primary">Cr&eacute;er</button>
+				<a id="boutonAnnuler" th:href="@{/afficherCompte/{id}(id=${numeroCompte})}" class="btn btn-default">Annuler</a>
 			</form>
 		</div>
 

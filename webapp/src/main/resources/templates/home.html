@@ -52,15 +52,22 @@
 				</thead>
 				<tbody>
 					<tr th:if="${comptes.empty}">
-						<td colspan="3">Aucun compte en base de donn&eacutees</td>
+						<td id="aucunCompte" colspan="3">Aucun compte en base de donn&eacutees</td>
 					</tr>
 					<tr th:each="compte: ${comptes}">
-						<td><span th:text="${compte.prenom}"> Pr&eacutenom </span></td>
-						<td><span th:text="${compte.nom}"> Nom </span></td>
+						<td><span class="prenom" th:text="${compte.prenom}"> Pr&eacutenom </span></td>
+						<td><span class="nom" th:text="${compte.nom}"> Nom </span></td>
 						<td>
-							<a th:href="@{/afficherCompte/{id}(id=${compte.numeroCompte})}"><button class="btn btn-info">Op&eacuterations</button></a>
-							<a th:href="@{/mettreAJourCompte/{id}(id=${compte.numeroCompte})}"><button class="btn btn-warning">Modifier</button></a>
-							<form id="formSuppression" th:action="@{/supprimerCompte/{id}(id=${compte.numeroCompte})}" 
+							<a th:href="@{/afficherCompte/{id}(id=${compte.numeroCompte})}"
+							   th:attr="data-testid='operations-' + ${compte.numeroCompte}">
+							   <button class="btn btn-info">Op&eacuterations</button>
+							</a>
+							<a th:href="@{/mettreAJourCompte/{id}(id=${compte.numeroCompte})}"
+							   th:attr="data-testid='modifier-' + ${compte.numeroCompte}">
+							   <button class="btn btn-warning">Modifier</button>
+							</a>
+							<form class="formSuppression" th:action="@{/supprimerCompte/{id}(id=${compte.numeroCompte})}" 
+									th:attr="data-testid='supprimer-' + ${compte.numeroCompte}"
 									method="post"
 									style="display: inline;">
 								<button type="button" class="btn btn-danger" onclick="confirmerSuppression(this.closest('form'))">Supprimer</button>
@@ -70,7 +77,7 @@
 				</tbody>
 			</table>
 		</div>
-		<h4><a th:href="@{/creerCompte}">Ajouter un nouveau compte</a></h4>
+		<h4><a id="ajoutCompte" th:href="@{/creerCompte}">Ajouter un nouveau compte</a></h4>
 
 	</div>
 

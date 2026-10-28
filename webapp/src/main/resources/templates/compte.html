@@ -74,18 +74,20 @@
         </thead>
         <tbody>
           <tr th:if="${lignes.empty}">
-            <td colspan="5">Aucune op&eacute;ration enregistr&eacute;e</td>
+            <td id="aucuneLigne" colspan="5">Aucune op&eacute;ration enregistr&eacute;e</td>
           </tr>
           <tr th:each="ligne : ${lignes}">
-            <td><span th:text="${#dates.format(ligne.dateOperation, 'dd/MM/yyyy')}"> Date </span></td>
-            <td><span th:text="${ligne.description}"> Description </span></td>
-            <td><span th:text="${ligne.categorie}"> Cat&eacute;gorie </span></td>
-            <td><span th:text="${#numbers.formatDecimal(ligne.montant, 1, 'WHITESPACE', 2, 'COMMA')}"> Montant </span></td>
+            <td><span class="date" th:text="${#dates.format(ligne.dateOperation, 'dd/MM/yyyy')}"> Date </span></td>
+            <td><span class="description" th:text="${ligne.description}"> Description </span></td>
+            <td><span class="categorie" th:text="${ligne.categorie}"> Cat&eacute;gorie </span></td>
+            <td><span class="montant" th:text="${#numbers.formatDecimal(ligne.montant, 1, 'WHITESPACE', 2, 'COMMA')}"> Montant </span></td>
             <td>
-              <a th:href="@{/mettreAJourLigne/{id}(id=${ligne.id})}">
+              <a th:href="@{/mettreAJourLigne/{id}(id=${ligne.id})}"
+				 th:attr="data-testid='modifier-' + ${ligne.id}">
                 <button class="btn btn-warning">Modifier</button>
               </a>
-              <form id="formSuppression" th:action="@{/supprimerLigne/{id}(id=${ligne.id})}" 
+              <form class="formSuppression" th:action="@{/supprimerLigne/{id}(id=${ligne.id})}" 
+						th:attr="data-testid='supprimer-' + ${ligne.id}"
 						method="post"
 						style="display: inline;">
 					<button type="button" class="btn btn-danger" onclick="confirmerSuppression(this.closest('form'))">Supprimer</button>
@@ -95,7 +97,7 @@
         </tbody>
       </table>
     </div>
-    <h4><a th:href="@{/creerLigne/{id}(id=${numeroCompte})}">Ajouter une nouvelle op&eacute;ration</a></h4>
+    <h4><a id="ajoutLigne" th:href="@{/creerLigne/{id}(id=${numeroCompte})}">Ajouter une nouvelle op&eacute;ration</a></h4>
     <a th:href="@{/}">
       <button class="btn btn-primary bouton-retour">Retour</button>
     </a>

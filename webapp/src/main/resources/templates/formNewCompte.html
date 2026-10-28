@@ -45,7 +45,8 @@ body {
 		<h2 class="h2">Ajout d'un nouveau compte</h2>
 		<div>
 			<form method="post"
-				th:action="@{/sauvegarderCompte}" th:object="${compte}">
+				th:action="@{/sauvegarderCompte}" th:object="${compte}"
+				onsubmit="const b = this.querySelector('[type=submit]'); setTimeout(() => b.disabled = true, 0);">
 				<div class="form-group">
 					<label for="lastNameInput">Nom</label> 
 					<input
@@ -65,11 +66,11 @@ body {
 					<input
 						type="email" th:field="*{mail}" class="form-control" id="mailInput"
 						aria-describedby="mailHelp" placeholder="Saisir le mail"> <small
-						id="mailHelp" class="form-text text-muted">Merci d'&eacute;crire le mail du titulaire du compte.</small>
+						id="mailHelp" class="form-text text-muted">Merci d'&eacute;crire l'adresse email du titulaire du compte.</small>
 				</div>
 				
-				<button type="submit" class="btn btn-primary">Cr&eacute;er</button>
-				<a th:href="@{/}" class="btn btn-default">Annuler</a>
+				<button id="boutonValider" type="submit" class="btn btn-primary">Cr&eacute;er</button>
+				<a id="boutonAnnuler" th:href="@{/}" class="btn btn-default">Annuler</a>
 			</form>
 		</div>
 

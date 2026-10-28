@@ -45,7 +45,8 @@ body {
 		<h2 class="h2">Modification d'une op&eacute;ration</h2>
 		<div>
 			<form method="post"
-				th:action="@{/sauvegarderLigne}" th:object="${ligne}">
+				th:action="@{/sauvegarderLigne}" th:object="${ligne}"
+				onsubmit="const b = this.querySelector('[type=submit]'); setTimeout(() => b.disabled = true, 0);">
 				<div class="form-group">
 					<input
 						type="hidden" th:field="*{id}" class="form-control">
@@ -78,13 +79,13 @@ body {
 				<div class="form-group">
 					<label for="dateInput">Date</label> 
 					<input
-						type="date" name= "dateOperation" th:value="${dateOperation}" class="form-control" id="dateInput" required
+						type="date" name= "dateOperation" th:value="*{dateOperation}" class="form-control" id="dateInput" required
 						aria-describedby="dateHelp" placeholder="Saisir la date"> <small
 						id="dateHelp" class="form-text text-muted">Merci d'&eacute;crire la date de l'op&eacute;ration.</small>
 				</div>
 				
-				<button type="submit" class="btn btn-primary">Modifier</button>
-				<a th:href="@{/afficherCompte/{id}(id=${ligne.numeroCompte})}" class="btn btn-default">Annuler</a>
+				<button id="boutonValider" type="submit" class="btn btn-primary">Modifier</button>
+				<a id="boutonAnnuler" th:href="@{/afficherCompte/{id}(id=${ligne.numeroCompte})}" class="btn btn-default">Annuler</a>
 			</form>
 		</div>
 
