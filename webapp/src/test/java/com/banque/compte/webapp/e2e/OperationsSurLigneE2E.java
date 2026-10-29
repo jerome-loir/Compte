@@ -28,8 +28,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class OperationsSurLigneE2E {
 	
 	private static Process processusApi;
-	private static final String nomCompteTest = "test_e2e";
-	private static final String prenomCompteTest = "test_e2e";
+	private static final String NOM_COMPTE_TEST = "test_e2e";
+	private static final String PRENOM_COMPTE_TEST = "test_e2e";
 	private static String numeroCompteTest;
 	
 	@LocalServerPort
@@ -99,7 +99,7 @@ public class OperationsSurLigneE2E {
     }
 
     private static void creerCompteTestViaApi() throws IOException, InterruptedException {
-		String json = "{\"nom\":\"" + nomCompteTest + "\",\"prenom\":\"" + prenomCompteTest + "\",\"mail\":\"\"}";
+		String json = "{\"nom\":\"" + NOM_COMPTE_TEST + "\",\"prenom\":\"" + PRENOM_COMPTE_TEST + "\",\"mail\":\"\"}";
 		HttpRequest requete = HttpRequest.newBuilder(URI.create("http://localhost:9000/compte"))
 				.header("Content-Type", "application/json").POST(HttpRequest.BodyPublishers.ofString(json)).build();
 		HttpResponse<String> reponse = HttpClient.newHttpClient().send(requete, HttpResponse.BodyHandlers.ofString());
